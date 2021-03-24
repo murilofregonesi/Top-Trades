@@ -1,4 +1,4 @@
-from app import db
+from flask import current_app
 from models import Post
 
 
@@ -8,11 +8,11 @@ class Database():
         pass
 
     @staticmethod
-    def add_post(id: int, content: str, date: str) -> bool:
+    def add_post(_id: int, content: str, date: str) -> bool:
         try:
-            post = Post(id, content, date)
-            db.session.add(post)
-            db.session.commit()
+            post = Post(_id, content, date)
+            current_app.db.session.add(post)
+            current_app.db.session.commit()
             return True
         except:
             return False

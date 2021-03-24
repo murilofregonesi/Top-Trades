@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-db = SQLAlchemy()
 
 def create_app():
 
@@ -20,16 +19,19 @@ def create_app():
     @app.route("/")
     def home():
         # TODO Update home function and location
-        posts = [1, 2]
+        from db import Database
+        posts = Database.get_all_posts()
+        
         return render_template("blog.html", posts=posts)
 
     with app.app_context():
-        db.init_app(app)
+        app.db = SQLAlchemy()
+        app.db.init_app(app)
 
         # Create tables if not exists
         import models
-        db.create_all()
-        db.session.commit()
+        app.db.create_all()
+        app.db.session.commit()
         
         # TODO Register routes
 
