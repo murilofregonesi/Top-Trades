@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Blog Content</h1>
+
+    {% for post in posts %}
+        <div class="card mb-3" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Post's title</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Post's date</h6>
+                <p class="card-text">Post's content</p>
+            </div>
+        </div>
+    {% endfor %}
+    
+{% endblock %}
