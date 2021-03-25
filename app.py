@@ -36,9 +36,13 @@ def create_app():
         # TODO Remove this testing area
         from db import Database
         import datetime
-        Database.add_post('Murilo', 'My new post', datetime.datetime.now())
+        #Database.add_post('Murilo', 'My new post', datetime.datetime.now())
         for post in Database.get_all_posts():
             print(post)
+
+        # TODO Remove Twitter testing area
+        from twitter import Twitter
+        #Twitter.update_status('Olá, Desenvolvendo com Tweepy :)')
 
         # TODO Register routes
 
