@@ -8,9 +8,9 @@ class Database():
         pass
 
     @staticmethod
-    def add_post(_id: int, content: str, date: str) -> bool:
+    def add_post(user: str, content: str, date: 'datetime') -> bool:
         try:
-            post = Post(_id, content, date)
+            post = Post(None, user, content, date)
             current_app.db.session.add(post)
             current_app.db.session.commit()
             return True

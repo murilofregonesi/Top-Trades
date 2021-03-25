@@ -32,7 +32,14 @@ def create_app():
         import models
         app.db.create_all()
         app.db.session.commit()
-        
+
+        # TODO Remove this testing area
+        from db import Database
+        import datetime
+        Database.add_post('Murilo', 'My new post', datetime.datetime.now())
+        for post in Database.get_all_posts():
+            print(post)
+
         # TODO Register routes
 
         if __name__ == '__main__':
