@@ -12,17 +12,21 @@ routes = Blueprint('routes', __name__)
 @routes.route("/")
 def home():
 
-    topics = Twitter.trending_topics()
-    
-    # Add all trending topics to the DB
-    for topic in topics:
-        user = topic['name']
-        content = topic['query']
-        date = datetime.now()
+    # Reset the DB
+    Database.delete_posts()
+    Database.delete_comments()
 
-        Database.add_post(user, content, date)
+    # Add Tweets to the DB
+    screen_names = ["interinvest", "rafabevilacqua2", "dinheirosabr"]
+    for screen_name in screen_names:
+        for status in Twitter.user_timeline(screen_name):
+            user = status.user.name
+            content = status.text
+            date = status.created_at
 
-    # Post all trending topics to the Blog
+            Database.add_post(user, content, date)
+
+    # Post Tweets to the Blog
     posts = Database.get_all_posts()
 
     return render_template("blog.html", posts=posts)

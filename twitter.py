@@ -21,7 +21,7 @@ class Twitter():
         Twitter.api.update_status(status)
 
     @staticmethod
-    def search(query: str) -> list:
+    def search_tweets(query: str) -> list:
         results = Twitter.api.search(q=query, lang='pt')
         return results
 
@@ -30,3 +30,13 @@ class Twitter():
         topics = Twitter.api.trends_place(BRAZIL_WOE_ID)
         topics = json.loads(json.dumps(topics[0]['trends'], indent=1))
         return topics
+
+    @staticmethod
+    def get_user(user):
+        user = Twitter.api.get_user(user)
+        return user
+
+    @staticmethod
+    def user_timeline(screen_name: str):
+        timeline = Twitter.api.user_timeline(screen_name=screen_name)
+        return timeline

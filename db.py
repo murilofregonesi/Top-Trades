@@ -1,5 +1,5 @@
 from flask import current_app
-from models import Post
+from models import Post, Comment
 
 
 class Database():
@@ -19,4 +19,13 @@ class Database():
 
     @staticmethod
     def get_all_posts() -> list:
-        return Post.query.all()
+        posts = Post.query.order_by(Post.date.desc()).all()
+        return posts
+
+    @staticmethod
+    def delete_posts():
+        Post.query.delete()
+
+    @staticmethod
+    def delete_comments():
+        Comment.query.delete()
