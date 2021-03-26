@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
@@ -14,15 +14,6 @@ def create_app():
     app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URI']
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
-
-    @app.route("/")
-    def home():
-        # TODO Update home function and location
-        from db import Database
-        posts = Database.get_all_posts()
-        
-        return render_template("blog.html", posts=posts)
 
     with app.app_context():
         app.db = SQLAlchemy()
@@ -33,18 +24,9 @@ def create_app():
         app.db.create_all()
         app.db.session.commit()
 
-        # TODO Remove this testing area
-        from db import Database
-        import datetime
-        #Database.add_post('Murilo', 'My new post', datetime.datetime.now())
-        for post in Database.get_all_posts():
-            print(post)
-
-        # TODO Remove Twitter testing area
-        from twitter import Twitter
-        #Twitter.update_status('Olá, Desenvolvendo com Tweepy :)')
-
-        # TODO Register routes
+        # Register blueprints
+        from routes import routes
+        app.register_blueprint(routes)
 
         if __name__ == '__main__':
             create_app().run()
