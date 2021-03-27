@@ -6,10 +6,16 @@
     {% for post in posts %}
         <div class="card text-light bg-dark mb-3 w-50" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">{{post.user}}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{post.date}}</h6>
-                <p class="card-text">{{post.content}}</p>
+                <h5 class="card-title">{{ post.user }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ post.date }}</h6>
+                <p class="card-text">{{ post.content }}</p>
             </div>
+
+            <button type="button" class="btn btn-default position-relative" aria-label="Left Align">
+                <a class="btn btn-dark" href="{{ url_for('routes.chat', id=post._id) }}" role="button">
+                    <img src="/static/add_icon.png" alt="Comments" width="5%">
+                </a>
+            </button>
         </div>
     {% endfor %}
     

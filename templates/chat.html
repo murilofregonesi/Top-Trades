@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Tweet Discussion</h1>
+
+    <div class="card text-light bg-dark mb-3 w-50" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{post.user}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{post.date}}</h6>
+            <p class="card-text">{{post.content}}</p>
+        </div>
+    </div>
+    
+{% endblock %}

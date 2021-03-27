@@ -30,3 +30,8 @@ def home():
     posts = Database.get_all_posts()
 
     return render_template("blog.html", posts=posts)
+
+@routes.route("/chat/<id>")
+def chat(id):
+    print(id)
+    return "{id}"
