@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Tweets da Semana</h1>
+    <h1 class="text-center">Tweets da Semana</h1>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Seja bem vindo!</strong> Encontre e interaja com seus Tweets preferidos.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
     {% for post in posts %}
-        <div class="card text-light border-secondary bg-dark mb-3 w-50" style="width: 18rem;">
+        <div class="card text-light border-secondary bg-dark mb-3 w-50 mx-auto" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">{{ post.user }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{ post.date }}</h6>
                 <p class="card-text">{{ post.content }}</p>
             </div>
 
-            <button type="button" class="btn btn-default position-relative" aria-label="Left Align">
+            <button type="button" class="btn btn-default position-relative mx-auto" aria-label="Left Align">
                 <a class="btn btn-dark" href="{{ url_for('routes.chat', post_id=post._id) }}" role="button">
                     <img src="/static/add_icon.png" alt="Comments" width="5%">
                 </a>

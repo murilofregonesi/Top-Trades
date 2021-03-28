@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from flask import Blueprint
 
 from twitter import Twitter
@@ -27,7 +27,6 @@ def home():
     # Tweets
     screen_names = ["interinvest", "rafabevilacqua2", "dinheirosabr"]
     contents = [db_post.content for db_post in db_posts]
-    print(contents)
 
     for screen_name in screen_names:
         for status in Twitter.user_timeline(screen_name):
@@ -36,7 +35,6 @@ def home():
 
             # Add new Tweets
             past_days = (datetime.now() - date).days
-            print(past_days)
             if past_days < int(os.environ['DAYS_TO_HOLD_DATA']):
                 if content not in contents:
                     user = status.user.name
@@ -49,6 +47,7 @@ def chat(post_id):
 
     if request.method == "POST":
         Database.add_comment(post_id, request.form.get('comment'))
+        return redirect(url_for('routes.chat', post_id=post_id))
 
     post = Database.get_post(post_id)
     comments = Database.get_post_comments(post_id)

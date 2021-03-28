@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <h1>Discussão Tweet</h1>
+{% block header %}
+    <button class="btn position-fixed mt-3 end-0 translate-middle bg-warning">
+        <a href="{{ url_for('routes.home') }}" role="button">
+            <i class="fa fa-home"></i> Tweets da Semana
+        </a>
+    </button>
+{% endblock %}
 
-    <div class="card text-light border-secondary bg-dark mb-3 w-50" style="width: 18rem;">
+{% block content %}
+    <h1 class="text-center">Discussão Tweet</h1>
+
+    <div class="card text-light border-secondary bg-dark mb-3 w-50 mx-auto" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">{{post.user}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{post.date}}</h6>
@@ -12,7 +20,7 @@
     </div>
 
     {% for comment in comments %}
-        <div class="card text-light border-warning mb-3 w-50" style="width: 18rem; background-color:black;">
+        <div class="card text-light border-warning mb-3 w-50 mx-auto" style="width: 18rem; background-color:black;">
             <div class="card-body">
                 <h5 class="card-title">{{comment.user}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{comment.date}}</h6>
@@ -25,11 +33,11 @@
 
 {% block footer %}
 <form method="POST">
-    <div class="form-group mb-3 mt-5 w-50">
+    <div class="form-group mb-3 mt-5 w-50 mx-auto">
         <label for="comment" class="form-label text-white text-uppercase font-weight-bold">Novo Comentário</label>
         <textarea class="form-control" name="comment" id="comment" rows="4" maxlength=280></textarea>
         <div id="textareaHelp" class="form-text">Nenhum conteúdo será publicado no Twitter.</div>
+        <input type="submit" value="Adicionar" class="btn btn-primary btn-lg mb-5 mt-3">
     </div>
-    <input type="submit" value="Adicionar" class="btn btn-secondary btn-lg mb-5">
 </form>
 {% endblock %}
