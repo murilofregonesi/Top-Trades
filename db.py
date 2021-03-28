@@ -19,7 +19,7 @@ class Database():
             return False
 
     @staticmethod
-    def get_all_posts() -> list:
+    def get_posts() -> list:
         posts = Post.query.order_by(Post.date.desc()).all()
         return posts
 
@@ -31,6 +31,12 @@ class Database():
     @staticmethod
     def delete_posts():
         Post.query.delete()
+        current_app.db.session.commit()
+
+    @staticmethod
+    def delete_post(_id):
+        Post.query.filter(Post._id==_id).delete()
+        current_app.db.session.commit()
 
     @staticmethod
     def add_comment(id_post: int, content: str, user: str='Unknown') -> bool:
@@ -49,5 +55,11 @@ class Database():
         return comments
 
     @staticmethod
+    def delete_post_comments(id_post: int):
+        Comment.query.filter(Comment.id_post==id_post).delete()
+        current_app.db.session.commit()
+
+    @staticmethod
     def delete_comments():
         Comment.query.delete()
+        current_app.db.session.commit()

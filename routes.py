@@ -5,6 +5,7 @@ from twitter import Twitter
 from db import Database
 
 from datetime import datetime
+import os
 
 
 routes = Blueprint('routes', __name__)
@@ -12,27 +13,36 @@ routes = Blueprint('routes', __name__)
 @routes.route("/")
 def home():
 
-    # TODO Do not reset all the time
-    # Reset the DB
-    reset_db = True
-    if reset_db:
-        Database.delete_comments()
-        Database.delete_posts()
+    # Database posts
+    db_posts = Database.get_posts()
 
-        # Add Tweets to the DB
-        screen_names = ["interinvest", "rafabevilacqua2", "dinheirosabr"]
-        for screen_name in screen_names:
-            for status in Twitter.user_timeline(screen_name):
-                user = status.user.name
-                content = status.text
-                date = status.created_at
+    # Remove old posts
+    for post in db_posts:
+        past_days = (datetime.now() - post.date).days
+        if past_days > int(os.environ['DAYS_TO_HOLD_DATA']):
+            Database.delete_post_comments(post._id)
+            Database.delete_post(post._id)
+            db_posts.remove(post)
 
-                Database.add_post(user, content, date)
+    # Tweets
+    screen_names = ["interinvest", "rafabevilacqua2", "dinheirosabr"]
+    contents = [db_post.content for db_post in db_posts]
+    print(contents)
 
-    # Post Tweets to the Blog
-    posts = Database.get_all_posts()
+    for screen_name in screen_names:
+        for status in Twitter.user_timeline(screen_name):
+            content = status.text
+            date = status.created_at
 
-    return render_template("blog.html", posts=posts)
+            # Add new Tweets
+            past_days = (datetime.now() - date).days
+            print(past_days)
+            if past_days < int(os.environ['DAYS_TO_HOLD_DATA']):
+                if content not in contents:
+                    user = status.user.name
+                    Database.add_post(user, content, date)
+
+    return render_template("blog.html", posts=db_posts)
 
 @routes.route("/chat/<post_id>", methods=["GET", "POST"])
 def chat(post_id):

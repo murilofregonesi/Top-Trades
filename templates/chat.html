@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Discussão Tweet</h1>
 
-    <div class="card text-light bg-dark mb-3 w-50" style="width: 18rem;">
+    <div class="card text-light border-secondary bg-dark mb-3 w-50" style="width: 18rem;">
         <div class="card-body">
             <h5 class="card-title">{{post.user}}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{post.date}}</h6>
@@ -12,9 +12,13 @@
     </div>
 
     {% for comment in comments %}
-    <div>
-        TODO: Print the Comment here
-    </div>
+        <div class="card text-light border-warning mb-3 w-50" style="width: 18rem; background-color:black;">
+            <div class="card-body">
+                <h5 class="card-title">{{comment.user}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{comment.date}}</h6>
+                <p class="card-text">{{comment.content}}</p>
+            </div>
+        </div>
     {% endfor %}
     
 {% endblock %}
@@ -23,9 +27,9 @@
 <form method="POST">
     <div class="form-group mb-3 mt-5 w-50">
         <label for="comment" class="form-label text-white text-uppercase font-weight-bold">Novo Comentário</label>
-        <textarea class="form-control" name="comment" id="comment" rows="4"></textarea>
+        <textarea class="form-control" name="comment" id="comment" rows="4" maxlength=280></textarea>
         <div id="textareaHelp" class="form-text">Nenhum conteúdo será publicado no Twitter.</div>
     </div>
-    <input type="submit" value="Adicionar" class="btn btn-secondary btn-lg">
+    <input type="submit" value="Adicionar" class="btn btn-secondary btn-lg mb-5">
 </form>
 {% endblock %}
