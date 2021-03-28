@@ -1,5 +1,6 @@
 from flask import current_app
 from models import Post, Comment
+from datetime import datetime
 
 
 class Database():
@@ -8,7 +9,7 @@ class Database():
         pass
 
     @staticmethod
-    def add_post(user: str, content: str, date: 'datetime') -> bool:
+    def add_post(user: str, content: str, date: datetime) -> bool:
         try:
             post = Post(None, user, content, date)
             current_app.db.session.add(post)
@@ -23,8 +24,29 @@ class Database():
         return posts
 
     @staticmethod
+    def get_post(_id):
+        post = Post.query.filter(Post._id == _id).first()
+        return post
+
+    @staticmethod
     def delete_posts():
         Post.query.delete()
+
+    @staticmethod
+    def add_comment(id_post: int, content: str, user: str='Unknown') -> bool:
+        date = datetime.now()
+        try:
+            comment = Comment(None, id_post, user, content, date)
+            current_app.db.session.add(comment)
+            current_app.db.session.commit()
+            return True
+        except:
+            return False
+
+    @staticmethod
+    def get_post_comments(id_post: int) -> list:
+        comments = Comment.query.filter(Comment.id_post==id_post).order_by(Comment.date.desc()).all()
+        return comments
 
     @staticmethod
     def delete_comments():

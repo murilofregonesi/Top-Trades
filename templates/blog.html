@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Blog Content</h1>
+    <h1>Tweets da Semana</h1>
 
     {% for post in posts %}
         <div class="card text-light bg-dark mb-3 w-50" style="width: 18rem;">
@@ -12,7 +12,7 @@
             </div>
 
             <button type="button" class="btn btn-default position-relative" aria-label="Left Align">
-                <a class="btn btn-dark" href="{{ url_for('routes.chat', id=post._id) }}" role="button">
+                <a class="btn btn-dark" href="{{ url_for('routes.chat', post_id=post._id) }}" role="button">
                     <img src="/static/add_icon.png" alt="Comments" width="5%">
                 </a>
             </button>
